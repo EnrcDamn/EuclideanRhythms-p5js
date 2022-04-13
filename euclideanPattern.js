@@ -3,6 +3,8 @@ const framerate = 60;
 let radius;
 let sixteenthNoteCount;
 let bpmSlider;
+let stopPlaying;
+let button;
 
 // Objects declaration
 let circleSeq1;
@@ -37,7 +39,6 @@ function setup() {
 	angleMode(RADIANS);
 	rectMode(CENTER);
 	colorMode(RGB);
-	noFill();
 	// preload();
 	init();
 }
@@ -49,6 +50,11 @@ function init() {
 	bpmSlider.addClass("mySliders");
 	bpmSlider.position(windowWidth / 2 - radius, windowHeight / 2 - 3*radius);
 	sixteenthNoteCount = int(framerate / bpmSlider.value());
+	
+	stopPlaying = true;
+	button = createButton("play");
+	button.position(50, 20);
+	button.mouseClicked(togglePlaying);
 
 	circleSeq1 = new CircleSequencer (
 		windowWidth / 5,
@@ -91,7 +97,9 @@ function init() {
 function draw() {
 	background("#4D7092");
 
-	sixteenthNoteCount--;
+	if (stopPlaying == false){
+		sixteenthNoteCount--;
+	}
 	if (sixteenthNoteCount < 0) {
 		sixteenthNoteCount = int(framerate / bpmSlider.value());
 	}
@@ -129,7 +137,18 @@ function draw() {
 	pop();
 }
 
+function togglePlaying(){
+	if (stopPlaying == false){
+		button.html("play");
+		stopPlaying = true;
+	}
+	else {
+		button.html("pause");
+		stopPlaying = false;
+	}
+}
+
+
 // TODO: 
 // *) add continuous hand rotation
 // *) implement pulses hit
-// *) add on / off
