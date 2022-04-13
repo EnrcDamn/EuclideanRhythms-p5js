@@ -54,7 +54,7 @@ function init() {
 	stopPlaying = true;
 	button = createButton("play");
 	button.position(50, 20);
-	button.mouseClicked(togglePlaying);
+	button.mousePressed(togglePlaying);
 
 	circleSeq1 = new CircleSequencer (
 		windowWidth / 5,
@@ -103,6 +103,10 @@ function draw() {
 	if (sixteenthNoteCount < 0) {
 		sixteenthNoteCount = int(framerate / bpmSlider.value());
 	}
+	else if (sixteenthNoteCount == 0 && stopPlaying == true)
+		sixteenthNoteCount = int(framerate / bpmSlider.value());
+
+	console.log(sixteenthNoteCount);		
 
 	push();
 	circleSeq1.setRenderPosition();
