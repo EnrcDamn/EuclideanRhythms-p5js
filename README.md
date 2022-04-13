@@ -5,7 +5,7 @@ An Euclidean Rhythms generator implemented in p5.js.
 
 As the name suggests, Euclidean rhythms have roots in ancient Greek geometry before entering the world of modern music creation.
 
-The musical properties of the Euclid's ubiquitous greatest common divisor algorithm were discovered by Godfried Toussaint in 2004 and are described in his paper ["The Euclidean Algorithm Generates Traditional Musical Rhythms"](http://cgm.cs.mcgill.ca/~godfried/publications/banff.pdf). In short, he demonstrates how this mathematical principle can produce rhythms that are found in numerous and disparate styles of music from around the world and throughout history.
+The musical properties of the Euclid's ubiquitous greatest common divisor algorithm were discovered by Godfried Toussaint in 2005 and are described in his paper ["The Euclidean Algorithm Generates Traditional Musical Rhythms"](http://cgm.cs.mcgill.ca/~godfried/publications/banff.pdf). In short, he demonstrates how this mathematical principle can produce rhythms that are found in numerous and disparate styles of music from around the world and throughout history.
 
 ## Implementation
 
