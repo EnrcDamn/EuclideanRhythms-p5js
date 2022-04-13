@@ -1,15 +1,15 @@
 # EuclideanRhythms-P5
-An Euclidean rhythm generator implemented in p5.js.
+An Euclidean Rhythms generator implemented in p5.js.
 
 ## Summary
 
-As the name suggests, before entering the world of modern music creation Euclidean rhythms have roots in ancient Greek geometry.
+As the name suggests, Euclidean rhythms have roots in ancient Greek geometry before entering the world of modern music creation.
 
 The musical properties of the Euclid's ubiquitous greatest common divisor algorithm were discovered by Godfried Toussaint in 2004 and are described in his paper ["The Euclidean Algorithm Generates Traditional Musical Rhythms"](http://cgm.cs.mcgill.ca/~godfried/publications/banff.pdf). In short, he demonstrates how this mathematical principle could produce rhythms that are found in numerous and disparate styles of music from around the world and throughout history.
 
 ## Implementation
 
-The project is based on the Bjorklund algorithm, which was introduced first in nuclear physics for timing patterns in neutron accelerators but then re-imagined by Toussaint to produce sequences of maximally even rhythms.
+This implementation is based on the Bjorklund algorithm, which was first introduced in nuclear physics for timing patterns in neutron accelerators but then re-imagined by Toussaint to produce sequences of maximally even rhythms.
 
 It takes a number of steps (n) and finds the most even way to space pulses (k) within the window using only integers: if n is not evenly divisible by k, there will be two different durations between the evenly-spaced pulses. For example, k = 7 and n = 16 produces [ 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0 ].
 
