@@ -43,8 +43,7 @@ function setup() {
 	init();
 }
 
-function init() {
-	color = (234, 222, 101);
+function initialise() {
 	radius = windowWidth / 16;
 	bpmSlider = createSlider(2, 12, 7, 1);
 	bpmSlider.addClass("mySliders");
