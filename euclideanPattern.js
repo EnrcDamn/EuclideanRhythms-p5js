@@ -2,8 +2,7 @@
 const framerate = 32;
 let radius;
 let stepTime;
-let initPulses;
-let initSteps;
+let bpmSlider;
 
 // Objects declaration
 let circleSeq1;
@@ -22,6 +21,7 @@ let e3Sound;
 let fs3Sound;
 let a3Sound;
 let cs4Sound;
+
 
 function preload() {
 	soundFormats('mp3');
@@ -44,49 +44,49 @@ function setup() {
 
 function init() {
 	color = (234, 222, 101);
-	radius = height / 8;
+	radius = windowWidth / 16;
 	stepTime = framerate / 8;
 
 	circleSeq1 = new CircleSequencer (
 		windowWidth / 5,
 		windowHeight / 2,
-		[204, 23, 204],
+		"#FF64FF",
 		radius,
-		4,
-		7,
+		2,
+		8,
 		e3Sound
 	);
 	circleSeq2 = new CircleSequencer (
 		windowWidth / 5 * 2,
 		windowHeight / 2,
-		[255, 102, 0],
+		"#ff8000",
 		radius,
-		4,
-		11,
+		2,
+		9,
 		fs3Sound
 	);
 	circleSeq3 = new CircleSequencer (
 		windowWidth / 5 * 3,
 		windowHeight / 2,
-		[24, 212, 24],
+		"#00cc00",
 		radius,
 		3,
-		6,
+		8,
 		a3Sound
 	);
 	circleSeq4 = new CircleSequencer (
 		windowWidth / 5 * 4,
 		windowHeight / 2,
-		[56, 128, 255],
+		"#00c6ee",
 		radius,
-		2,
-		8,
+		5,
+		11,
 		cs4Sound
 	);
 }
 
 function draw() {
-	background(20);
+	background("#4D7092");
 
 	stepTime--;
 	if (stepTime < 0) {
@@ -94,34 +94,34 @@ function draw() {
 	}
 
 	push();
+	circleSeq1.setRenderPosition();
 	tick1 = circleSeq1.updateTick(stepTime);
 	circleSeq1.playPattern(tick1);
 	circleSeq1.drawClockFace();
 	circleSeq1.drawHand(tick1);
-	circleSeq1.drawSliders();
 	pop();
 
 	push();
+	circleSeq2.setRenderPosition();
 	tick2 = circleSeq2.updateTick(stepTime);
 	circleSeq2.playPattern(tick2);
 	circleSeq2.drawClockFace();
 	circleSeq2.drawHand(tick2);
-	circleSeq2.drawSliders();
 	pop();
 
 	push();
+	circleSeq3.setRenderPosition();
 	tick3 = circleSeq3.updateTick(stepTime);
 	circleSeq3.playPattern(tick3);
 	circleSeq3.drawClockFace();
 	circleSeq3.drawHand(tick3);
-	circleSeq3.drawSliders();
 	pop();
 
 	push();
+	circleSeq4.setRenderPosition();
 	tick4 = circleSeq4.updateTick(stepTime);
 	circleSeq4.playPattern(tick4);
 	circleSeq4.drawClockFace();
 	circleSeq4.drawHand(tick4);
-	circleSeq4.drawSliders();
 	pop();
 }
