@@ -1,4 +1,4 @@
-# EuclideanRhythms-P5
+# EuclideanRhythms-p5js
 An Euclidean Rhythms generator implemented in p5.js.
 
 ## Summary
