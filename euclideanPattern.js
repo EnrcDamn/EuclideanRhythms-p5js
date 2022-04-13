@@ -68,7 +68,7 @@ function init() {
 	circleSeq3 = new CircleSequencer (
 		windowWidth / 5 * 3,
 		windowHeight / 2,
-		[22, 212, 0],
+		[24, 212, 24],
 		radius,
 		3,
 		6,
@@ -96,8 +96,8 @@ function draw() {
 	push();
 	tick1 = circleSeq1.updateTick(stepTime);
 	circleSeq1.playPattern(tick1);
-	circleSeq1.drawClockFace();
 	circleSeq1.drawHand(tick1);
+	circleSeq1.drawClockFace();
 	circleSeq1.drawSliders();
 	pop();
 

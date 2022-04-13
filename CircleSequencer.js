@@ -34,7 +34,7 @@ class CircleSequencer {
                 rect(0, this.radius, this.radius / 10, this.radius / 5, this.radius / 13);
             }
             else if (this.getSequence()[step] === 1) {
-                fill(this.color); // 
+                fill(this.color); // color
                 noStroke();
                 rect(0, this.radius, this.radius / 6, this.radius / 3, this.radius / 10);
             }
