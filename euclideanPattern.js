@@ -1,10 +1,7 @@
-// Variables
+// Declarations
 const framerate = 32;
-// const centreX = windowWidth / 2;
-// const centreY = windowHeight / 2;
 let radius;
 let stepTime;
-let color;
 let initPulses;
 let initSteps;
 
@@ -37,9 +34,9 @@ function preload() {
 function setup() {
 	createCanvas(windowWidth, windowHeight);
 	frameRate(framerate);
-	colorMode(RGB);
 	angleMode(RADIANS);
 	rectMode(CENTER);
+	colorMode(RGB);
 	noFill();
 	// preload();
 	init();
@@ -53,7 +50,7 @@ function init() {
 	circleSeq1 = new CircleSequencer (
 		windowWidth / 5,
 		windowHeight / 2,
-		color,
+		[204, 23, 204],
 		radius,
 		4,
 		7,
@@ -62,7 +59,7 @@ function init() {
 	circleSeq2 = new CircleSequencer (
 		windowWidth / 5 * 2,
 		windowHeight / 2,
-		color,
+		[255, 102, 0],
 		radius,
 		4,
 		11,
@@ -71,7 +68,7 @@ function init() {
 	circleSeq3 = new CircleSequencer (
 		windowWidth / 5 * 3,
 		windowHeight / 2,
-		color,
+		[22, 212, 0],
 		radius,
 		3,
 		6,
@@ -80,7 +77,7 @@ function init() {
 	circleSeq4 = new CircleSequencer (
 		windowWidth / 5 * 4,
 		windowHeight / 2,
-		color,
+		[56, 128, 255],
 		radius,
 		2,
 		8,
