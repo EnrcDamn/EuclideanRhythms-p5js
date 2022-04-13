@@ -96,8 +96,8 @@ function draw() {
 	push();
 	tick1 = circleSeq1.updateTick(stepTime);
 	circleSeq1.playPattern(tick1);
-	circleSeq1.drawHand(tick1);
 	circleSeq1.drawClockFace();
+	circleSeq1.drawHand(tick1);
 	circleSeq1.drawSliders();
 	pop();
 
