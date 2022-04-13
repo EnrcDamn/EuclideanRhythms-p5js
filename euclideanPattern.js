@@ -97,16 +97,14 @@ function init() {
 function draw() {
 	background("#4D7092");
 
-	if (stopPlaying == false){
+	if (stopPlaying == false)
 		sixteenthNoteCount--;
-	}
-	if (sixteenthNoteCount < 0) {
-		sixteenthNoteCount = int(framerate / bpmSlider.value());
-	}
-	else if (sixteenthNoteCount == 0 && stopPlaying == true)
-		sixteenthNoteCount = int(framerate / bpmSlider.value());
 
-	console.log(sixteenthNoteCount);		
+	if (sixteenthNoteCount < 0)
+		sixteenthNoteCount = int(framerate / bpmSlider.value());
+	else if (sixteenthNoteCount == 0 && stopPlaying == true)
+		// to avoid 0-pulse loop
+		sixteenthNoteCount = int(framerate / bpmSlider.value());	
 
 	push();
 	circleSeq1.setRenderPosition();
