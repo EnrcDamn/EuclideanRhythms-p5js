@@ -125,3 +125,9 @@ function draw() {
 	circleSeq4.drawHand(tick4);
 	pop();
 }
+
+// TODO: 
+// *) add bpm slider
+// *) add continuous hand rotation
+// *) implement pulses hit
+// *) add on / off
