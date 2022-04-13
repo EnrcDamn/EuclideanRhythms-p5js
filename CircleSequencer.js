@@ -29,37 +29,37 @@ class CircleSequencer {
         rotate(-PI);
         for(let step in this.getSequence()) {
             if(this.getSequence()[step] === 0){
-                fill(this.color);
+                fill(100); // grey
                 noStroke();
                 rect(0, this.radius, this.radius / 10, this.radius / 5, this.radius / 13);
             }
             else if (this.getSequence()[step] === 1) {
-                fill(100);
+                fill(this.color); // 
                 noStroke();
                 rect(0, this.radius, this.radius / 6, this.radius / 3, this.radius / 10);
             }
             let angle = map(1, 0, this.getSequence().length, 0, 2*PI);
             rotate(angle);
-
-            fill(100);
-            noStroke();
-            ellipse(0, 0, 10, 10);
         }
-    }
-
-    drawSliders() {
-        this.pulsesSlider.position(this.centreX - this.radius, this.centreY + 2 * this.radius);
-        this.stepsSlider.position(this.centreX - this.radius, this.centreY + 2 * this.radius + 50);
     }
 
     drawHand(tick) {
         rotate(PI / 2);
-        stroke(this.color, 20, 100);
+        stroke(255); // white
         strokeWeight(3);
         push();
         rotate(map(tick, 0, this.getSequence().length, 0, 2* PI));
         line(0, 0, this.radius + this.radius / 6, 0);
         pop();
+
+        fill(255); // white
+        noStroke();
+        ellipse(0, 0, 10, 10);
+    }
+
+    drawSliders() {
+        this.pulsesSlider.position(this.centreX - this.radius, this.centreY + 2 * this.radius);
+        this.stepsSlider.position(this.centreX - this.radius, this.centreY + 2 * this.radius + 50);
     }
 
     playPattern(tick) {
