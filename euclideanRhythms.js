@@ -40,7 +40,7 @@ function setup() {
 	rectMode(CENTER);
 	colorMode(RGB);
 	// preload();
-	init();
+	initialise();
 }
 
 function initialise() {
