@@ -1,7 +1,7 @@
 // Declarations
-const framerate = 32;
+const framerate = 60;
 let radius;
-let stepTime;
+let sixteenthNoteCount;
 let bpmSlider;
 
 // Objects declaration
@@ -11,10 +11,10 @@ let circleSeq3;
 let circleSeq4;
 
 // Pattern update variables
-let tick1;
-let tick2;
-let tick3;
-let tick4;
+let note1;
+let note2;
+let note3;
+let note4;
 
 // Sound variables
 let e3Sound;
@@ -45,7 +45,10 @@ function setup() {
 function init() {
 	color = (234, 222, 101);
 	radius = windowWidth / 16;
-	stepTime = framerate / 8;
+	bpmSlider = createSlider(2, 12, 7, 1);
+	bpmSlider.addClass("mySliders");
+	bpmSlider.position(windowWidth / 2 - radius, windowHeight / 2 - 3*radius);
+	sixteenthNoteCount = int(framerate / bpmSlider.value());
 
 	circleSeq1 = new CircleSequencer (
 		windowWidth / 5,
@@ -88,46 +91,45 @@ function init() {
 function draw() {
 	background("#4D7092");
 
-	stepTime--;
-	if (stepTime < 0) {
-		stepTime = framerate / 8;
+	sixteenthNoteCount--;
+	if (sixteenthNoteCount < 0) {
+		sixteenthNoteCount = int(framerate / bpmSlider.value());
 	}
 
 	push();
 	circleSeq1.setRenderPosition();
-	tick1 = circleSeq1.updateTick(stepTime);
-	circleSeq1.playPattern(tick1);
+	note1 = circleSeq1.updateNote(sixteenthNoteCount);
+	circleSeq1.playPattern(note1);
 	circleSeq1.drawClockFace();
-	circleSeq1.drawHand(tick1);
+	circleSeq1.drawHand(note1);
 	pop();
 
 	push();
 	circleSeq2.setRenderPosition();
-	tick2 = circleSeq2.updateTick(stepTime);
-	circleSeq2.playPattern(tick2);
+	note2 = circleSeq2.updateNote(sixteenthNoteCount);
+	circleSeq2.playPattern(note2);
 	circleSeq2.drawClockFace();
-	circleSeq2.drawHand(tick2);
+	circleSeq2.drawHand(note2);
 	pop();
 
 	push();
 	circleSeq3.setRenderPosition();
-	tick3 = circleSeq3.updateTick(stepTime);
-	circleSeq3.playPattern(tick3);
+	note3 = circleSeq3.updateNote(sixteenthNoteCount);
+	circleSeq3.playPattern(note3);
 	circleSeq3.drawClockFace();
-	circleSeq3.drawHand(tick3);
+	circleSeq3.drawHand(note3);
 	pop();
 
 	push();
 	circleSeq4.setRenderPosition();
-	tick4 = circleSeq4.updateTick(stepTime);
-	circleSeq4.playPattern(tick4);
+	note4 = circleSeq4.updateNote(sixteenthNoteCount);
+	circleSeq4.playPattern(note4);
 	circleSeq4.drawClockFace();
-	circleSeq4.drawHand(tick4);
+	circleSeq4.drawHand(note4);
 	pop();
 }
 
 // TODO: 
-// *) add bpm slider
 // *) add continuous hand rotation
 // *) implement pulses hit
 // *) add on / off
