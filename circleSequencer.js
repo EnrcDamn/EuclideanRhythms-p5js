@@ -86,7 +86,7 @@ class CircleSequencer {
             if (this.getSequence()[note] == 1 && this.isSoundPlayed == false) {
                 this.sound.pan(map(this.centreX, 0, windowWidth, -1.0, 1.0))
                 this.sound.play();
-                this.isSoundPlayed == true;
+                this.isSoundPlayed = true;
             }
         }
         this.currentNote = note;
