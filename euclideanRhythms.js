@@ -109,7 +109,7 @@ function draw() {
 	circleSeq1.setRenderPosition();
 	note1 = circleSeq1.updateNote(sixteenthNoteCount);
 	circleSeq1.playPattern(note1);
-	circleSeq1.drawClockFace();
+	circleSeq1.drawClockFace(note1);
 	circleSeq1.drawHand(note1);
 	pop();
 
@@ -117,7 +117,7 @@ function draw() {
 	circleSeq2.setRenderPosition();
 	note2 = circleSeq2.updateNote(sixteenthNoteCount);
 	circleSeq2.playPattern(note2);
-	circleSeq2.drawClockFace();
+	circleSeq2.drawClockFace(note2);
 	circleSeq2.drawHand(note2);
 	pop();
 
@@ -125,7 +125,7 @@ function draw() {
 	circleSeq3.setRenderPosition();
 	note3 = circleSeq3.updateNote(sixteenthNoteCount);
 	circleSeq3.playPattern(note3);
-	circleSeq3.drawClockFace();
+	circleSeq3.drawClockFace(note3);
 	circleSeq3.drawHand(note3);
 	pop();
 
@@ -133,7 +133,7 @@ function draw() {
 	circleSeq4.setRenderPosition();
 	note4 = circleSeq4.updateNote(sixteenthNoteCount);
 	circleSeq4.playPattern(note4);
-	circleSeq4.drawClockFace();
+	circleSeq4.drawClockFace(note4);
 	circleSeq4.drawHand(note4);
 	pop();
 }
@@ -152,4 +152,3 @@ function togglePlaying(){
 
 // TODO: 
 // *) add continuous hand rotation
-// *) implement pulses hit

@@ -7,9 +7,11 @@ class CircleSequencer {
         this.radius = radius;
         this.sound = sound;
 
-        this.isSoundPlayed = false;
         this.currentNote = 0;
         this.note = 0;
+        this.triggered = false;
+        this.animationTime = 20;
+        this.a = 0.0;
 
         this.pulsesSlider = createSlider(0, 16, initPulses, 1);
         this.stepsSlider = createSlider(0, 16, initSteps, 1);
@@ -37,8 +39,9 @@ class CircleSequencer {
         return bjorklund(pulsesValue, stepsValue);
     }
 
-    drawClockFace() {
+    drawClockFace(note) {
         for(let step in this.getSequence()) {
+            // draw the off steps of the sequence
             if(this.getSequence()[step] === 0){
                 fill("#aaaaaa"); // grey
                 noStroke();
@@ -50,7 +53,8 @@ class CircleSequencer {
                     this.radius / 13
                 );
             }
-            else if (this.getSequence()[step] === 1) {
+            else if (this.getSequence()[step] === 1 && note!==step) {
+                // draw the on steps of the sequence
                 fill(this.color); // color
                 noStroke();
                 rect(
@@ -60,6 +64,21 @@ class CircleSequencer {
                     this.radius / 3,
                     this.radius / 10
                 );
+            }
+            if (note == step && this.getSequence()[step] === 1 && this.triggered) {
+                // animate the current pulse playing
+                fill(this.color); // color
+                noStroke();
+                push();
+                this.animateRect();
+                rect(
+                    0,
+                    this.radius,
+                    this.radius / 6,
+                    this.radius / 3,
+                    this.radius / 10
+                );
+                pop();
             }
             let angle = map(1, 0, this.getSequence().length, 0, 2*PI);
             rotate(angle);
@@ -80,13 +99,25 @@ class CircleSequencer {
         ellipse(0, 0, 10, 10);
     }
 
+    animateRect(){
+        //rotate(random(-20/360, 20/360));
+        //translate(0, this.radius / 6);
+        this.animationTime--;
+        this.a += 0.5;
+        rotate(cos(this.a)*(8*PI / 360));
+        if (this.animationTime < 0){
+            this.triggered = false;
+            this.animationTime = 10;
+            this.a = 0.0;
+        }
+    }
+
     playPattern(note) {
         if (note != this.currentNote){
-            this.isSoundPlayed = false;
-            if (this.getSequence()[note] == 1 && this.isSoundPlayed == false) {
+            if (this.getSequence()[note] == 1) {
                 this.sound.pan(map(this.centreX, 0, windowWidth, -1.0, 1.0))
                 this.sound.play();
-                this.isSoundPlayed = true;
+                this.triggered = true;
             }
         }
         this.currentNote = note;
