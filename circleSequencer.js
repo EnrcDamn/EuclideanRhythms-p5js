@@ -58,10 +58,10 @@ class CircleSequencer {
         let previousCounter = this.frameCounter;
         this.steps = [];
         // update frame counter value to fit new steps length
-        let newCounter = this.framesPerNote
-                        * (int(previousCounter / this.framesPerNote)
-                        % this.sequence.length)
-                        + (previousCounter % this.framesPerNote);
+        let newCounter = this.framesPerNote * 
+                        (int(previousCounter / this.framesPerNote) % 
+                        this.sequence.length) + 
+                        (previousCounter % this.framesPerNote);
         for (let index in this.sequence) {
             this.steps.push(
                 new Step(

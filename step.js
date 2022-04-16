@@ -83,8 +83,8 @@ class Step {
     updateAnimation() {
         if (this.animationCount <= 0) return;
         this.animationCount--;
-        rotate(cos(this.animationCount/2)
-                * (PI / 360)
-                * (this.animationCount / 2));
+        rotate(cos(this.animationCount/2) * 
+              (PI / 360) * 
+              (this.animationCount / 2));
     }
 }
