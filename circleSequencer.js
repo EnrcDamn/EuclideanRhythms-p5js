@@ -1,134 +1,145 @@
 class CircleSequencer {
     constructor(centreX, centreY, color, radius,
-                initPulses, initSteps, sound) {
+                initPulses, initSteps, sound, framesPerNote) {
         this.centreX = centreX;
         this.centreY = centreY;
         this.color = color;
         this.radius = radius;
         this.sound = sound;
-
-        this.currentNote = 0;
-        this.note = 0;
-        this.triggered = false;
-        this.animationTime = 20;
-        this.a = 0.0;
-
+        this.framesPerNote = framesPerNote;
+        
+        // Sliders for setting pulse and step number
         this.pulsesSlider = createSlider(0, 16, initPulses, 1);
-        this.stepsSlider = createSlider(0, 16, initSteps, 1);
         this.pulsesSlider.addClass("mySliders");
-        this.stepsSlider.addClass("mySliders");
         this.pulsesSlider.position(
             this.centreX - this.radius,
             this.centreY + 2 * this.radius);
+
+        this.stepsSlider = createSlider(1, 16, initSteps, 1);
+        this.stepsSlider.addClass("mySliders");
         this.stepsSlider.position(
             this.centreX - this.radius,
             this.centreY + 2 * this.radius + 50);
+        
+        this.sequence = [];
+        this.pulsesCount = 0;
+        this.handAngle = 0;
+        this.frameCounter = 0;
+        this.steps = []; // array for step objects
+        this.getSequence();
     }
 
+
+    // ( centreX, centreY )
     setRenderPosition() {
         translate(this.centreX, this.centreY);
         noFill();
         rotate(-PI);
     }
 
+
     getSequence() {
         let pulsesValue = this.pulsesSlider.value();
         let stepsValue = this.stepsSlider.value();
         if (pulsesValue > stepsValue) pulsesValue = stepsValue;
         if (stepsValue < pulsesValue) stepsValue = pulsesValue;
-        return bjorklund(pulsesValue, stepsValue);
+        let sequenceLength = this.sequence.length;
+        this.sequence = bjorklund(pulsesValue, stepsValue);
+        // re-init steps and pulses when slider value changes
+        if (sequenceLength !== stepsValue)
+            this.initSteps(pulsesValue);
+        else if (pulsesValue !== this.pulsesCount)
+            this.updatePulses(pulsesValue);
     }
 
-    drawClockFace(note) {
-        for(let step in this.getSequence()) {
-            // draw the off steps of the sequence
-            if(this.getSequence()[step] === 0){
-                fill("#aaaaaa"); // grey
-                noStroke();
-                rect(
-                    0,
+
+    initSteps(pulsesValue) {
+        this.pulsesCount = pulsesValue;
+        let previousCounter = this.frameCounter;
+        this.steps = [];
+        // update frame counter value to fit new steps length
+        let newCounter = this.framesPerNote
+                        * (int(previousCounter / this.framesPerNote)
+                        % this.sequence.length)
+                        + (previousCounter % this.framesPerNote);
+        for (let index in this.sequence) {
+            this.steps.push(
+                new Step(
+                    this.centreX,
                     this.radius,
-                    this.radius / 10,
-                    this.radius / 5,
-                    this.radius / 13
-                );
-            }
-            else if (this.getSequence()[step] === 1 && note!==step) {
-                // draw the on steps of the sequence
-                fill(this.color); // color
-                noStroke();
-                rect(
-                    0,
-                    this.radius,
-                    this.radius / 6,
-                    this.radius / 3,
-                    this.radius / 10
-                );
-            }
-            if (note == step && this.getSequence()[step] === 1 && this.triggered) {
-                // animate the current pulse playing
-                fill(this.color); // color
-                noStroke();
-                push();
-                this.animateRect();
-                rect(
-                    0,
-                    this.radius,
-                    this.radius / 6,
-                    this.radius / 3,
-                    this.radius / 10
-                );
-                pop();
-            }
-            let angle = map(1, 0, this.getSequence().length, 0, 2*PI);
+                    this.sequence[index],
+                    2*PI / this.sequence.length * index,
+                    1,
+                    this.color,
+                    this.sound,
+                    (newCounter / this.framesPerNote) >= index
+                )
+            )
+        }
+        this.frameCounter = newCounter;
+    }
+
+
+    updatePulses(pulsesValue) {
+        this.pulsesCount = pulsesValue;
+        for (let index in this.sequence){
+            this.steps[index].activatePulse(this.sequence[index]);
+        }
+    }
+
+
+    drawSequencer() {
+        let angle = 2*PI / this.sequence.length;
+        for (let index in this.steps) {
+            this.steps[index].draw();
             rotate(angle);
         }
+        this.drawHand();
     }
 
-    drawHand(note) {
-        rotate(PI / 2);
-        stroke("#ffffff"); // white
-        strokeWeight(3);
-        push();
-        rotate(map(note, 0, this.getSequence().length, 0, 2* PI));
-        line(0, 0, this.radius + this.radius / 6, 0);
-        pop();
 
-        fill("#ffffff"); // white
-        noStroke();
-        ellipse(0, 0, 10, 10);
-    }
-
-    animateRect(){
-        //rotate(random(-20/360, 20/360));
-        //translate(0, this.radius / 6);
-        this.animationTime--;
-        this.a += 0.5;
-        rotate(cos(this.a)*(8*PI / 360));
-        if (this.animationTime < 0){
-            this.triggered = false;
-            this.animationTime = 10;
-            this.a = 0.0;
-        }
-    }
-
-    playPattern(note) {
-        if (note != this.currentNote){
-            if (this.getSequence()[note] == 1) {
-                this.sound.pan(map(this.centreX, 0, windowWidth, -1.0, 1.0))
-                this.sound.play();
-                this.triggered = true;
+    // Update frame counter and rotation angle 
+    update() {
+        let frameAngle = 2*PI / (this.sequence.length * this.framesPerNote);
+        this.handAngle = frameAngle * this.frameCounter;
+        // Reset after a full cycle
+        if (this.frameCounter >= this.sequence.length * this.framesPerNote) {
+            this.handAngle = 0;
+            this.frameCounter = 0;
+            for (let index in this.steps){
+                this.steps[index].resetStatus();
             }
         }
-        this.currentNote = note;
+        // Check if note is played at every step
+        this.steps[int(this.frameCounter / this.framesPerNote)].checkNote();
+        this.frameCounter++;
     }
 
-    updateNote(sixteenthNoteCount) {
-        if (sixteenthNoteCount <= 0) {
-            if (this.note < this.getSequence().length - 1)
-                this.note++;
-            else this.note = 0;
-        }
-        return this.note;
+
+    // Global clock callback
+    setFramesPerNote(framesPerNote){
+        this.frameCounter = int(this.frameCounter / this.framesPerNote) * framesPerNote;
+        this.framesPerNote = framesPerNote;
+    }
+
+
+    drawHand(){
+        rotate(PI/2);
+        stroke("#ffffff"); // white
+        strokeWeight(this.radius / 25);
+        rotate(this.handAngle);
+        line(0, 0, this.radius + this.radius / 6, 0);
+        fill("#ffffff");
+        noStroke();
+        ellipse(0, 0, this.radius / 10, this.radius / 10);
+    }
+
+
+    updateFrame(stopPlaying){
+        this.getSequence();
+        this.setRenderPosition();
+        if (stopPlaying == false)
+            this.update();
+        this.drawSequencer();
     }
 }
