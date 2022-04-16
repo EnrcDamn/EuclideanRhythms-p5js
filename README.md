@@ -1,7 +1,7 @@
 # EuclideanRhythms-p5js
 An Euclidean Rhythms generator implemented in p5.js.
 
-### Try it out on [Open Processing](https://openprocessing.org/sketch/1543915) :watch: :musical_note:
+### Try it out on [Open Processing](https://openprocessing.org/sketch/1543915) :hourglass: :musical_note:
 
 ## Summary
 
