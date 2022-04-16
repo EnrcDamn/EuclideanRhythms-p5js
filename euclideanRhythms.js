@@ -1,10 +1,13 @@
 // Declarations
 const framerate = 60;
+let WIDTH;
+let HEIGHT;
 let radius;
-let sixteenthNoteCount;
 let bpmSlider;
 let stopPlaying;
 let button;
+let framesPerNote;
+let framesCount;
 
 // Objects declaration
 let circleSeq1;
@@ -33,8 +36,69 @@ function preload() {
 	cs4Sound = loadSound('sounds/eucl-cs4');
 }
 
+function initialise() {
+	radius = WIDTH / 16;
+
+	// Initialise bpm slider and global frame clock
+	bpmSlider = createSlider(2, 12, 7, 1);
+	bpmSlider.addClass("mySliders");
+	bpmSlider.position(WIDTH / 2 - radius, HEIGHT / 8);
+	framesCount = 0;
+	framesPerNote = int(framerate / bpmSlider.value());
+	
+	// Play-pause button
+	stopPlaying = true;
+	button = createButton("play");
+	button.position(50, 20);
+	button.mousePressed(togglePlaying);
+
+	// Init sequencer objects
+	circleSeq1 = new CircleSequencer (
+		WIDTH / 5,
+		HEIGHT / 2,
+		"#FF64FF",
+		radius,
+		2,
+		8,
+		e3Sound,
+		framesPerNote
+	);
+	circleSeq2 = new CircleSequencer (
+		WIDTH / 5 * 2,
+		HEIGHT / 2,
+		"#ff8000",
+		radius,
+		2,
+		9,
+		fs3Sound,
+		framesPerNote
+	);
+	circleSeq3 = new CircleSequencer (
+		WIDTH / 5 * 3,
+		HEIGHT / 2,
+		"#00cc00",
+		radius,
+		3,
+		8,
+		a3Sound,
+		framesPerNote
+	);
+	circleSeq4 = new CircleSequencer (
+		WIDTH / 5 * 4,
+		HEIGHT / 2,
+		"#00c6ee",
+		radius,
+		5,
+		11,
+		cs4Sound,
+		framesPerNote
+	);
+}
+
 function setup() {
-	createCanvas(windowWidth, windowHeight);
+	WIDTH = windowWidth;
+	HEIGHT = windowHeight;
+	createCanvas(WIDTH, HEIGHT);
 	frameRate(framerate);
 	angleMode(RADIANS);
 	rectMode(CENTER);
@@ -43,101 +107,42 @@ function setup() {
 	initialise();
 }
 
-function initialise() {
-	radius = windowWidth / 16;
-	bpmSlider = createSlider(2, 12, 7, 1);
-	bpmSlider.addClass("mySliders");
-	bpmSlider.position(windowWidth / 2 - radius, windowHeight / 2 - 3*radius);
-	sixteenthNoteCount = int(framerate / bpmSlider.value());
-	
-	stopPlaying = true;
-	button = createButton("play");
-	button.position(50, 20);
-	button.mousePressed(togglePlaying);
-
-	circleSeq1 = new CircleSequencer (
-		windowWidth / 5,
-		windowHeight / 2,
-		"#FF64FF",
-		radius,
-		2,
-		8,
-		e3Sound
-	);
-	circleSeq2 = new CircleSequencer (
-		windowWidth / 5 * 2,
-		windowHeight / 2,
-		"#ff8000",
-		radius,
-		2,
-		9,
-		fs3Sound
-	);
-	circleSeq3 = new CircleSequencer (
-		windowWidth / 5 * 3,
-		windowHeight / 2,
-		"#00cc00",
-		radius,
-		3,
-		8,
-		a3Sound
-	);
-	circleSeq4 = new CircleSequencer (
-		windowWidth / 5 * 4,
-		windowHeight / 2,
-		"#00c6ee",
-		radius,
-		5,
-		11,
-		cs4Sound
-	);
-}
-
 function draw() {
 	background("#4D7092");
 
-	if (stopPlaying == false)
-		sixteenthNoteCount--;
-
-	if (sixteenthNoteCount < 0)
-		sixteenthNoteCount = int(framerate / bpmSlider.value());
-	else if (sixteenthNoteCount == 0 && stopPlaying == true)
-		// to avoid 0-pulse loop
-		sixteenthNoteCount = int(framerate / bpmSlider.value());	
-
+	// Update clock ( bpmSlider.value() )
+	if (framesCount == framesPerNote) {
+		framesCount = 0;
+		let temp = int(framerate / bpmSlider.value());
+		if (temp != framesPerNote){
+			framesPerNote = temp;
+			// circleSeq -> new clock rate
+			circleSeq1.setFramesPerNote(framesPerNote);
+			circleSeq2.setFramesPerNote(framesPerNote);
+			circleSeq3.setFramesPerNote(framesPerNote);
+			circleSeq4.setFramesPerNote(framesPerNote);
+		}
+	}
+	framesCount++;
+	
 	push();
-	circleSeq1.setRenderPosition();
-	note1 = circleSeq1.updateNote(sixteenthNoteCount);
-	circleSeq1.playPattern(note1);
-	circleSeq1.drawClockFace(note1);
-	circleSeq1.drawHand(note1);
+	circleSeq1.updateFrame(stopPlaying);
 	pop();
 
 	push();
-	circleSeq2.setRenderPosition();
-	note2 = circleSeq2.updateNote(sixteenthNoteCount);
-	circleSeq2.playPattern(note2);
-	circleSeq2.drawClockFace(note2);
-	circleSeq2.drawHand(note2);
+	circleSeq2.updateFrame(stopPlaying);
 	pop();
 
 	push();
-	circleSeq3.setRenderPosition();
-	note3 = circleSeq3.updateNote(sixteenthNoteCount);
-	circleSeq3.playPattern(note3);
-	circleSeq3.drawClockFace(note3);
-	circleSeq3.drawHand(note3);
+	circleSeq3.updateFrame(stopPlaying);
 	pop();
 
 	push();
-	circleSeq4.setRenderPosition();
-	note4 = circleSeq4.updateNote(sixteenthNoteCount);
-	circleSeq4.playPattern(note4);
-	circleSeq4.drawClockFace(note4);
-	circleSeq4.drawHand(note4);
+	circleSeq4.updateFrame(stopPlaying);
 	pop();
 }
 
+// play - stop
 function togglePlaying(){
 	if (stopPlaying == false){
 		button.html("play");
@@ -148,7 +153,3 @@ function togglePlaying(){
 		stopPlaying = false;
 	}
 }
-
-
-// TODO: 
-// *) add continuous hand rotation
