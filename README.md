@@ -11,7 +11,7 @@ The musical properties of the Euclid's ubiquitous greatest common divisor algori
 
 ## Implementation
 
-This implementation is based on the Bjorklund algorithm, which was first introduced in nuclear physics for timing patterns in neutron accelerators but then re-imagined by Toussaint to produce sequences of maximally even rhythms.
+This implementation is based on the Bjorklund algorithm, which uses the same form of division of Euclid's algorithm in a binary structure. Bjorklund's algorithm was first introduced in nuclear physics for timing patterns in neutron accelerators, but then re-imagined by Toussaint to produce sequences of maximally even rhythms.
 
 It takes a number of steps (n) and finds the most even way to space pulses (k) within the window using only integers: if n is not evenly divisible by k, there will be two different durations between the evenly-spaced pulses. For example, k = 7 and n = 16 produces [ 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0 ].
 
