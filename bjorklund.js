@@ -33,6 +33,5 @@ function bjorklund(pulses, steps) {
 	
 	let sequence = [];
 	sequence = Array.prototype.concat.call(head, remainders).flat();
-	// console.log(head, remainders);
 	return sequence;
 }
