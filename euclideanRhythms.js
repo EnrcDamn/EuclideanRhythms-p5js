@@ -154,6 +154,6 @@ function togglePlaying(){
 	}
 }
 
-TODO:
+// TODO:
 // Rotation
 // Fix Firefox audio issues
