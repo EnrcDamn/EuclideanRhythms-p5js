@@ -153,3 +153,7 @@ function togglePlaying(){
 		stopPlaying = false;
 	}
 }
+
+TODO:
+// Rotation
+// Fix Firefox audio issues
