@@ -2,6 +2,7 @@
 An Euclidean Rhythms generator implemented in p5.js.
 
 ### Try it out on [Open Processing](https://openprocessing.org/sketch/1543915) :hourglass: :musical_note:
+*Note: for compatibility reasons, it is highly recommended to run the web app on a chromium-based browser.*
 
 ## Summary
 
